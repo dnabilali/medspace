@@ -3,6 +3,7 @@ from re import X
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import app
 from flask_app.models import pharmacy
+from flask_app.models import patient
 from flask import flash, session
 
 db='medspace'
@@ -31,8 +32,9 @@ class Med:
         return connectToMySQL(db).query_db(query, data)
 
     @classmethod
-    def get_all_meds_one_patient_one_pharmacy(cls,patient_id,pharmacy_id):
-        query = f'select * from medications where patient_id = {patient_id} and pharmacy_id = {pharmacy_id}'
+    def get_all_meds_one_patient_one_pharmacy(cls, data):
+        query = 'select * from medications where patient_id = %(patient_id)s and pharmacy_id = %(pharmacy_id)s'
+        return connectToMySQL(db).query_db(query, data)
 
     # @classmethod
     # def get_bought_cars(cls,data):
