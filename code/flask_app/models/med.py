@@ -68,15 +68,11 @@ class Med:
         if len(data['directions'])<5:
             flash('Please enter valid directions', "med")
             is_valid = False
-        if type(data['days_left']) != int:
-            flash("Please enter the days left until you finish this prescription as a number", "med")
-        if type(data['days_left']) == int and (int(data['days_left']))<1:
-            flash('Please enter a valid number for the days left until you finish this prescription', "med")
+        if (data['days_left']).isnumeric() == False or (int(data['days_left']))<1:
+            flash("Please enter a valid number for the days left until you finish this prescription", "med")
             is_valid = False
-        if type(data['days_left']) != int:
-            flash("Please enter the refills left for this prescription as a number", "med")
-        if type(data['refills']) == int and (int(data['refills']))<0:
-            flash('Please enter a valid number for the days left until you finish this prescription', "med")
+        if (data['days_left']).isnumeric() == False:
+            flash("Please enter a valid number of refills this prescription", "med")
             is_valid = False
         return is_valid
 

@@ -11,7 +11,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
         <h1 class="navbar-brand m-3">Welcome to Medspace, {{one_patient[0]['first_name']}}!!!</h1>
         <div class="my-2 my-lg-0 m-3">
-            <a href="">.........</a>
+            <a class="p-5" href="/patient_profile/{{session['patient_id']}}">Dashboard</a>
             <a class="p-4" href="/logout">Log Out</a>
         </div>
     </nav>
@@ -38,13 +38,13 @@
             </div>
             <div class="form-group">
                 <label for="days_left">Days Left</label>
-                <input type="text" class="form-control" name="days_left">
+                <input type="number" class="form-control" name="days_left">
             </div>
             <div class="form-group">
                 <label for="refills">Refills</label>
-                <input type="text" class="form-control" name="refills">
+                <input type="number" class="form-control" name="refills">
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Add</button>
         </form>
     </div>
 </body>

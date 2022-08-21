@@ -37,6 +37,7 @@ def add_patient_prescription(patient_id, pharmacy_id):
 @app.route("/add_prescription/<int:patient_id>/<int:pharmacy_id>", methods=['POST'])
 def add_prescription(patient_id, pharmacy_id):
     if 'patient_id' in session and session['patient_id'] == patient_id:
+        print(type(request.form['days_left']))
         if not Med.validate_inputs(request.form):
             return redirect(f'/new_med/{patient_id}/{pharmacy_id}')
         data = {
