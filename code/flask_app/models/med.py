@@ -19,11 +19,12 @@ class Med:
         self.pharmacy_id = data['pharmacy_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.refill_request = data['refill_request']
         # self.bought_cars = []
 
     @classmethod
     def save(cls,data):
-        query = 'insert into medications (name, directions, days_left, refills, patient_id, pharmacy_id) values (%(name)s, %(directions)s, %(days_left)s, %(refills)s, %(patient_id)s, %(pharmacy_id)s)'
+        query = 'insert into medications (name, directions, days_left, refills, patient_id, pharmacy_id, refill_request) values (%(name)s, %(directions)s, %(days_left)s, %(refills)s, %(patient_id)s, %(pharmacy_id)s, %(refill_request)s)'
         return connectToMySQL(db).query_db(query,data)
 
     @classmethod
@@ -34,6 +35,11 @@ class Med:
     @classmethod
     def get_all_meds_one_patient_one_pharmacy(cls, data):
         query = 'select * from medications where patient_id = %(patient_id)s and pharmacy_id = %(pharmacy_id)s'
+        return connectToMySQL(db).query_db(query, data)
+
+    @classmethod
+    def delete_med(cls,data):
+        query = 'delete from medications where id = %(med_id)s'
         return connectToMySQL(db).query_db(query, data)
 
     # @classmethod

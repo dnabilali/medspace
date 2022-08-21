@@ -34,8 +34,11 @@
                     {% for one_pharmacy in all_unselected_pharmacies %}
                         <tr>
                             <td><a href="/pharmacy/{{one_pharmacy['id']}}">{{one_pharmacy['name']}} located at: {{one_pharmacy['address']}}</a></td>
-                            
-                            <td><a href="/patient_profile/{{patient_id}}/add/{{one_pharmacy['id']}}">Add pharmacy</a></td>
+                            <td>
+                                <form class="d-flex justify-content-end" action="/patient_profile/{{patient_id}}/add/{{one_pharmacy['id']}}" method="post">
+                                    <button type="submit" class="btn btn-primary">Add Pharmacy</button>
+                                </form>
+                            </td>
                         </tr> 
                     {% endfor %}
                 </tbody>
