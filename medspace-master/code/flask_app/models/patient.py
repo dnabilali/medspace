@@ -9,7 +9,6 @@ from flask_bcrypt import Bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 bcrypt = Bcrypt(app)
 
-
 db='medspace'
 
 
@@ -100,7 +99,13 @@ class Patient:
             flash('Please chosse a valid address', "patient_registration")
             is_valid = False
         if patient['bdate'][:4] > datetime.datetime.now().strftime("%Y"):
-            flash('Please enter a valid date of birth', 'patient_registration')
+            flash('Please enter a valid date if birth (year)', 'patient_registration')
+            is_valid = False
+        if patient['bdate'][5:8] > datetime.datetime.now().strftime("%M"):
+            flash('Please enter a valid date of birth (month)', 'patient_registration')
+            is_valid = False
+        if patient['bdate'][8:10] > datetime.datetime.now().strftime("%d"):
+            flash('Please enter a valid date of birth (day)', 'patient_registration')
             is_valid = False
         # continue verfication if the date of birth is in the past
         return is_valid
