@@ -34,7 +34,7 @@ def pharmacy_registration():
 @app.route("/pharmacy_profile/<int:id>")
 def pharmacy_profile(id):
     if 'pharmacy_id' in session and session['pharmacy_id'] == id:
-        return render_template("pharmacy_profile.html", this_pharmacy = Pharmacy.get_one_pharmacy({"id": id}), pharmacy_id = session['pharmacy_id'])
+        return render_template("pharmacy_profile.html", this_pharmacy = Pharmacy.get_one_pharmacy({"id": id}), pharmacy_id = session['pharmacy_id'], refills = Pharmacy.refillsRequested({'id':id}))
     else:
         flash('Please sign in to access your profile!','pharmacy_login')
         return redirect('/pharmacy')
@@ -67,6 +67,8 @@ def add_pharmacy_to_patient(patient_id, pharmacy_id):
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
+
+
 
 # @app.route("/purchases/<int:user_id>")
 # def display_purchases(user_id):

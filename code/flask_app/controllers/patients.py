@@ -58,6 +58,20 @@ def login_patient():
         flash('Incorrect password!','patient_login')
         return redirect('/patients')
 
+@app.route('/remove_pharmacy/<int:patient_id>/<int:pharmacy_id>')
+def removePatientPharmacy(patient_id, pharmacy_id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        data ={
+            'patient_id': patient_id,
+            'pharmacy_id': pharmacy_id
+        }
+        Patient.removePharmacy(data)
+        return redirect(f'/patient_profile/{patient_id}')
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
+
 # @app.route("/purchases/<int:user_id>")
 # def display_purchases(user_id):
 #     user_with_purchased_cars = User.get_bought_cars({'id':user_id})
