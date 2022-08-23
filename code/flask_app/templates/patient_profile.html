@@ -17,11 +17,20 @@
     </nav>
     <div>
         {% if pharmacies_added %}
-            <h3>Your pharmacies:</h3>
-            {% for pharmacy in pharmacies_added %}
-                <a href="/patient_profile/{{patient_id}}/{{pharmacy.id}}">{{pharmacy.name}} at {{pharmacy.address}}</a>
+            <div class="p-5 m-5 w-75">
+                <h3>Your pharmacies:</h3>
                 <br>
-            {% endfor %}
+                <table class="table table-striped">
+                    <tbody>
+                        {% for pharmacy in pharmacies_added %}
+                            <tr>
+                                <td><a href="/patient_profile/{{patient_id}}/{{pharmacy.id}}">{{pharmacy.name}} at {{pharmacy.address}} </a></td>
+                                <td><a href="/remove_pharmacy/{{patient_id}}/{{pharmacy.id}}">/ Remove</a></td>
+                            </tr> 
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% endif %}
     </div>
     {% if all_unselected_pharmacies %}

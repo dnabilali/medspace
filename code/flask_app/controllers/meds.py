@@ -43,3 +43,30 @@ def add_prescription(patient_id, pharmacy_id):
         Med.save(data)
     return redirect(f"/patient_profile/{patient_id}/{pharmacy_id}")
 
+@app.route("/request_refill/<int:patient_id>/<int:pharmacy_id>/<int:id>")
+def request_refill(patient_id, pharmacy_id, id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        print(id)
+        data = {
+            'id' : id
+        }
+        medication = Med.get_one_med(data)
+        refill = Med.requestRefill(data)
+        #dataTwo = {
+        #    'id' : patient_id,
+        #    'pharmacy_id' : pharmacy_id
+        #}
+        #x = Med.medsToBeRefilled(dataTwo)
+        return redirect(f"/patient_profile/{patient_id}/{pharmacy_id}")
+
+@app.route('/delete_meds/<int:patient_id>/<int:pharmacy_id>/<int:id>')
+def deleteMeds(patient_id, pharmacy_id, id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        data ={
+            'id': id
+        }
+        Med.delete(data)
+        return redirect(f'/patient_profile/{patient_id}/{pharmacy_id}')
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')

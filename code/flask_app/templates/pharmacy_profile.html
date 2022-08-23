@@ -16,15 +16,27 @@
         </div>
     </nav>
     <div class="p-5 m-5">
-        <h3>Patients List:</h3>
+        <h3>Refills To Be Made:</h3>
         <br>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Medication</th>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Days Left</th>
+                    <th scope="col">Refills Left</th>                    
                     <th scope="col">Actions</th>
                 </tr>
+            </thead>
+            <thead>
+                {% for one_refill in refills %}
+                    <tr>
+                        <td>{{one_refill['medications.name']}}</td>
+                        <td>{{one_refill['first_name']}} {{one_refill['last_name']}}</td>
+                        <td>{{one_refill['days_left']}}</td>
+                        <td>{{one_refill['refills']}}</td>
+                    </tr>
+                {% endfor %}
             </thead>
             <!-- <tbody>
                 {% for one_car in all_cars: %}
