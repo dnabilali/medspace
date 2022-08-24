@@ -1,5 +1,6 @@
 from flask_app.models.patient import Patient
 from flask_app.models.pharmacy import Pharmacy
+from flask_app.models.med import Med
 from flask_app import app
 from flask import redirect, render_template, session, request, flash
 from flask_bcrypt import Bcrypt
@@ -39,7 +40,7 @@ def patient_registration():
 @app.route("/patient_profile/<int:id>")
 def patient_profile(id):
     if 'patient_id' in session and session['patient_id'] == id:
-        return render_template("patient_profile.html", one_patient = Patient.get_one_patient({"id": id}), all_unselected_pharmacies = Pharmacy.get_all_unselected_pharmacies({"id":id}), patient_id = session['patient_id'], pharmacies_added = Pharmacy.pharmacies_added({"id":id}))
+        return render_template("patient_profile.html", one_patient = Patient.get_one_patient({"id": id}), all_unselected_pharmacies = Pharmacy.get_all_unselected_pharmacies({"id":id}), patient_id = session['patient_id'], pharmacies_added = Pharmacy.pharmacies_added({"id":id}), all_medications = Med.get_all_meds_one_patient({"id":id}))
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
@@ -47,7 +48,6 @@ def patient_profile(id):
 @app.route("/login_patient", methods=['POST'])
 def login_patient():
     patient = Patient.get_patient_by_email({'email':request.form['email']})
-    # print('user is', user)
     if len(patient) == 0:
         flash('This email address is not registered. Please register first.', 'patient_login')
         return redirect('/patients')
@@ -70,11 +70,4 @@ def removePatientPharmacy(patient_id, pharmacy_id):
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
-
-
-# @app.route("/purchases/<int:user_id>")
-# def display_purchases(user_id):
-#     user_with_purchased_cars = User.get_bought_cars({'id':user_id})
-#     # print("here's the profile holder's info plus purchased cars",user_with_purchased_cars)
-#     return render_template("purchases.html", user = user_with_purchased_cars)
 

@@ -40,6 +40,13 @@ class Med:
         return connectToMySQL(db).query_db(query, data)
 
     @classmethod
+    def get_all_meds_one_patient(cls, data):
+        query = 'select * from medications join pharmacies on medications.pharmacy_id = pharmacies.id where patient_id = %(id)s'
+        results = connectToMySQL(db).query_db(query, data)
+        print(results[0])
+        return results
+
+    @classmethod
     def delete_med(cls,data):
         query = 'delete from medications where id = %(med_id)s'
         return connectToMySQL(db).query_db(query, data)
@@ -88,29 +95,6 @@ class Med:
 #            refills.patient = patient.Patient(patient_data)
 #            refills.pharmacy = pharmacy.Pharmacy(pharmacy_data)
 #        return refills
-
-    # @classmethod
-    # def get_bought_cars(cls,data):
-    #     query = 'select * from users as buyers left join cars on buyers.id = cars.buyer_id left join users as sellers on sellers.id = cars.seller_id where buyers.id = %(id)s'
-    #     results = connectToMySQL(db).query_db(query, data)
-    #     buyer = cls(results[0])
-    #     for row in results:
-    #         car_data = {
-    #             "id" : row['cars.id'],
-    #             "make": row['make'],
-    #             "model": row['model'],
-    #             "year": row['year'],
-    #             "price" : row['price'],
-    #             "description" : row['description'],
-    #             "seller_id" : row['sellers.id'],
-    #             "buyer_id" : session['user_id'],
-    #             "created_at": row['cars.created_at'],
-    #             "updated_at": row['cars.updated_at'],
-    #             "first_name" : row['sellers.first_name'],
-    #             "last_name" : row['sellers.last_name']
-    #         }
-    #         buyer.bought_cars.append(car.Car(car_data))
-    #     return buyer
 
     @staticmethod
     def validate_inputs(data):
