@@ -45,6 +45,14 @@ def patient_profile(id):
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
 
+@app.route("/patient_profile/<int:id>/pharmacies")
+def patient_profile_pharmacies(id):
+    if 'patient_id' in session and session['patient_id'] == id:
+        return render_template("patient_profile_pharmacies.html", one_patient = Patient.get_one_patient({"id": id}), all_unselected_pharmacies = Pharmacy.get_all_unselected_pharmacies({"id":id}), patient_id = session['patient_id'], pharmacies_added = Pharmacy.pharmacies_added({"id":id}), all_medications = Med.get_all_meds_one_patient({"id":id}))
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
 @app.route("/login_patient", methods=['POST'])
 def login_patient():
     patient = Patient.get_patient_by_email({'email':request.form['email']})
