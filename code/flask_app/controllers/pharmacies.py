@@ -63,7 +63,20 @@ def add_pharmacy_to_patient(patient_id, pharmacy_id):
     if 'patient_id' in session and session['patient_id'] == patient_id:
         print(f"the patient id is {patient_id} and the pharmacy id is {pharmacy_id}")
         Patient.add_pharmacy({"patient_id":patient_id, "pharmacy_id": pharmacy_id})
-        return redirect(f"/patient_profile/{patient_id}/{pharmacy_id}")
+        return redirect(f"/patient_profile/{patient_id}/pharmacies")
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
+@app.route('/remove_pharmacy/<int:patient_id>/<int:pharmacy_id>')
+def removePatientPharmacy(patient_id, pharmacy_id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        data ={
+            'patient_id': patient_id,
+            'pharmacy_id': pharmacy_id
+        }
+        Patient.removePharmacy(data)
+        return redirect(f'/patient_profile/{patient_id}/pharmacies')
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')

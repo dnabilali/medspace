@@ -41,17 +41,18 @@
                             <td><a href="/patient_profile/{{patient_id}}/{{one_med['pharmacies.id']}}">{{one_med['pharmacies.name']}} at {{one_med['address']}}</a></td>
                             <td>
                                 {% if one_med.refill_request != 1 %}
-                                    <a href="/request_refill/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}">Request-Refill </a>
+                                    <a href="/request_refill/all_meds_view/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}">Request-Refill </a>
                                 {% else %}
                                     <p>refill request sent to pharmacy</p>
                                 {% endif %}
                             </td>
-                            <td><a href="/delete_meds/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}"> Delete</a></td>
+                            <td><a href="/delete_meds/all_meds_view/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}"> Delete</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     {% endif %}
+    <div class="d-flex justify-content-end"><a href="/new_med/{{one_patient[0]['id']}}" class="pr-5">Add a Prescription</a></div>
 </body>
 </html>

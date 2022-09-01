@@ -39,12 +39,12 @@
                             <td>{{one_med.refills}}</td>
                             <td>
                                     {% if one_med.refill_request != 1 %}
-                                        <a href="/request_refill/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}">Request-Refill </a>
+                                        <a href="/request_refill/one_pharamcy_view/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}">Request-Refill </a>
                                     {% else %}
                                         <p>refill request sent to pharmacy</p>
                                     {% endif %}
                             </td>
-                            <td><a href="/delete_meds/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}"> Delete</a></td>
+                            <td><a href="/delete_meds/one_pharmacy_view/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}"> Delete</a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
