@@ -16,7 +16,7 @@
         </div>
     </nav>
     <div class="d-flex flex-row">
-        <form class="m-5 p-2 w-50" action="/add_prescription/{{one_patient[0]['id']}}" method="post">
+        <form class="m-5 p-2 w-50" action="/update_prescription/{{one_patient[0]['id']}}/{{one_med[0]['id']}}" method="post">
             {% with messages = get_flashed_messages(category_filter = ['med']) %}
                 {% if messages %}
                     {% for message in messages %}
@@ -28,31 +28,35 @@
             <br>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="name" value="{{one_med[0]['name']}}">
             </div>
             <div class="form-group">
                 <label for="directions">Directions</label>
-                <input type="text" class="form-control" name="directions">
+                <input type="text" class="form-control" name="directions" value="{{one_med[0]['directions']}}">
             </div>
             <div class="form-group">
                 <label for="pharmacy">Pharmacy</label>
                 <br>
                 <select name="pharmacy" class="form-control">
-                    <option value="None" selected disabled hidden></option>
-                    {% for one_pharmacy in all_pharmacies %}
-                        <option value="{{one_pharmacy.id}}">{{one_pharmacy.name}} located at {{one_pharmacy.address}}</option>
+                    <option value="{{one_pharmacy[0].id}}" selected disabled hidden>
+                        {{one_pharmacy[0].name}} located at {{one_pharmacy[0].address}}
+                    </option>
+                    {% for pharmacy in all_pharmacies %}
+                        {% if pharmacy.id != one_pharmacy[0].id %}
+                            <option value="{{pharmacy.id}}">{{pharmacy.name}} located at {{pharmacy.address}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="days_left">Days Left</label>
-                <input type="number" class="form-control" name="days_left">
+                <input type="number" class="form-control" name="days_left" value="{{one_med[0]['days_left']}}">
             </div>
             <div class="form-group">
                 <label for="refills">Refills</label>
-                <input type="number" class="form-control" name="refills">
+                <input type="number" class="form-control" name="refills" value="{{one_med[0]['refills']}}">
             </div>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
         </form>
     </div>
 </body>

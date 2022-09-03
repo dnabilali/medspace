@@ -22,7 +22,6 @@ class Med:
         self.refill_request = data['refill_request']
         self.patient = None
         self.pharmacy = None
-        # self.bought_cars = []
 
     @classmethod
     def save(cls,data):
@@ -43,13 +42,12 @@ class Med:
     def get_all_meds_one_patient(cls, data):
         query = 'select * from medications join pharmacies on medications.pharmacy_id = pharmacies.id where patient_id = %(id)s'
         results = connectToMySQL(db).query_db(query, data)
-        print(results[0])
         return results
 
-    @classmethod
-    def delete_med(cls,data):
-        query = 'delete from medications where id = %(med_id)s'
-        return connectToMySQL(db).query_db(query, data)
+    # @classmethod
+    # def delete_med(cls,data):
+    #     query = 'delete from medications where id = %(med_id)s'
+    #     return connectToMySQL(db).query_db(query, data)
 
 
     @classmethod
@@ -61,6 +59,21 @@ class Med:
     def requestRefill(cls,data):
         query = 'UPDATE medications SET refill_request = 1 WHERE id = %(id)s'
         return connectToMySQL(db).query_db(query,data)
+
+    @classmethod
+    def approveRefill(cls,data):
+        query = 'UPDATE medications SET refill_request = 2, refills = refills - 1 WHERE id = %(id)s'
+        return connectToMySQL(db).query_db(query,data)
+
+    @classmethod
+    def declineRefill(cls,data):
+        query = 'UPDATE medications SET refill_request = 3 WHERE id = %(id)s'
+        return connectToMySQL(db).query_db(query,data)
+
+    @classmethod
+    def update(cls,data, med_id):
+        query = f'update medications set name = "name", directions = "directions", days_left = "days_left", refills = "refills" where id = {med_id}'
+        return connectToMySQL(db).query_db(query, data)
 
 #    @classmethod
 #    def medsToBeRefilled(cls, data):
@@ -95,6 +108,7 @@ class Med:
 #            refills.patient = patient.Patient(patient_data)
 #            refills.pharmacy = pharmacy.Pharmacy(pharmacy_data)
 #        return refills
+
 
     @staticmethod
     def validate_inputs(data):

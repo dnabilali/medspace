@@ -1,3 +1,4 @@
+from crypt import methods
 from flask_app.models.patient import Patient
 from flask_app.models.pharmacy import Pharmacy
 from flask_app import app
@@ -34,7 +35,10 @@ def pharmacy_registration():
 @app.route("/pharmacy_profile/<int:id>")
 def pharmacy_profile(id):
     if 'pharmacy_id' in session and session['pharmacy_id'] == id:
-        return render_template("pharmacy_profile.html", this_pharmacy = Pharmacy.get_one_pharmacy({"id": id}), pharmacy_id = session['pharmacy_id'], refills = Pharmacy.refillsRequested({'pharmacy_id':id}))
+        refills = Pharmacy.refillsRequested({'pharmacy_id':id})
+        # refill_request_status = refills[1]['refill_request']
+        # print("the refill request is:", refill_request_status)
+        return render_template("pharmacy_profile.html",this_pharmacy = Pharmacy.get_one_pharmacy({"id": id}), pharmacy_id = session['pharmacy_id'], refills = refills)
     else:
         flash('Please sign in to access your profile!','pharmacy_login')
         return redirect('/pharmacy')
@@ -80,3 +84,4 @@ def removePatientPharmacy(patient_id, pharmacy_id):
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
+

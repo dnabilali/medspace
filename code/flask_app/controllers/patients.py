@@ -66,4 +66,9 @@ def login_patient():
         flash('Incorrect password!','patient_login')
         return redirect('/patients')
 
+@app.route("/view_patient_profile/<int:patient_id>/<int:pharmacy_id>")
+def view_patient_profile(patient_id, pharmacy_id):
+    one_patient = Patient.get_one_patient({'id':patient_id})
+    return render_template("view_patient_profile.html" , one_patient = one_patient, this_pharmacy = Pharmacy.get_one_pharmacy({"id": pharmacy_id}))
+
 

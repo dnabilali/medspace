@@ -58,6 +58,7 @@ def add_rx_any_pharmacy(patient_id):
     if 'patient_id' in session and session['patient_id'] == patient_id:
         if not Med.validate_inputs(request.form):
             return redirect(f'/new_med/{patient_id}')
+        print("the days left type is ", type(request.form['days_left']))
         data = {
             'name' : request.form['name'],
             'directions' : request.form['directions'],
@@ -99,6 +100,24 @@ def request_refill_one_pharamcy_view(patient_id, pharmacy_id, id):
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
 
+@app.route("/accept_refill/<int:pharmacy_id>/<int:med_id>" , methods= ['POST'])
+def accept_refill(pharmacy_id, med_id):
+    if 'pharmacy_id' in session and session['pharmacy_id'] == pharmacy_id:
+        Med.approveRefill({'id':med_id})
+        return redirect(f"/pharmacy_profile/{pharmacy_id}")
+    else:
+        flash('Please sign in to access your profile!', "pharmacy_login")
+        return redirect('/pharmacies')
+
+@app.route("/decline_refill/<int:pharmacy_id>/<int:med_id>" , methods= ['POST'])
+def decline_refill(pharmacy_id, med_id):
+    if 'pharmacy_id' in session and session['pharmacy_id'] == pharmacy_id:
+        Med.declineRefill({'id':med_id})
+        return redirect(f"/pharmacy_profile/{pharmacy_id}")
+    else:
+        flash('Please sign in to access your profile!', "pharmacy_login")
+        return redirect('/pharmacies')
+
 
 @app.route('/delete_meds/one_pharmacy_view/<int:patient_id>/<int:pharmacy_id>/<int:id>')
 def deleteMeds_one_pharamcy_view(patient_id, pharmacy_id, id):
@@ -112,13 +131,44 @@ def deleteMeds_one_pharamcy_view(patient_id, pharmacy_id, id):
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
 
-@app.route('/delete_meds/all_meds_view/<int:patient_id>/<int:pharmacy_id>/<int:id>')
-def deleteMeds_all_meds_view(patient_id, pharmacy_id, id):
+@app.route('/delete_meds/all_meds_view/<int:patient_id>/<int:id>')
+def deleteMeds_all_meds_view(patient_id, id):
     if 'patient_id' in session and session['patient_id'] == patient_id:
         data ={
             'id': id
         }
         Med.delete(data)
+        return redirect(f'/patient_profile/{patient_id}')
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
+@app.route("/goto_edit_meds/all_meds_view/<int:patient_id>/<int:med_id>")
+def goto_edit_meds_all_meds_view(patient_id, med_id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        one_med = Med.get_one_med({'id':med_id})
+        return render_template("edit_prescription.html", one_med = one_med, one_patient = Patient.get_one_patient({"id": patient_id}), all_pharmacies = Pharmacy.get_all_pharmacies(), one_pharmacy = Pharmacy.get_pharmacy_by_med({'med_id': med_id}))
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
+@app.route("/update_prescription/<int:patient_id>/<int:med_id>", methods = ['POST'])
+def update_meds(patient_id, med_id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        if not Med.validate_inputs(request.form):
+            return redirect(f"/goto_edit_meds/all_meds_view/{patient_id}/{med_id}")
+        else:
+            print("the days left type is ", type(request.form['days_left']))
+            Med.update(request.form, med_id)
+            return redirect(f"/patient_profile/{patient_id}")
+    else:
+        flash('Please sign in to access your profile!','patient_login')
+        return redirect('/patients')
+
+@app.route("/next_refill/<int:patient_id>/<int:med_id>", methods=['POST'])
+def next_refill(patient_id, med_id):
+    if 'patient_id' in session and session['patient_id'] == patient_id:
+        Patient.next_refill({'med_id':med_id})
         return redirect(f'/patient_profile/{patient_id}')
     else:
         flash('Please sign in to access your profile!','patient_login')

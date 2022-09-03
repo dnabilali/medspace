@@ -14,48 +14,49 @@
             <a class="p-4" href="/logout">Log Out</a>
         </div>
     </nav>
-    <div class="p-5 m-5">
-        <h3>Refills To Be Made:</h3>
-        <br>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Medication</th>
-                    <th scope="col">Patient Name</th>
-                    <th scope="col">Days Left</th>
-                    <th scope="col">Refills Left</th>                    
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <thead>
-                {% for one_refill in refills %}
+    {% if refills %}
+        <div class="p-5 m-5">
+            <h3>Refills To Be Made:</h3>
+            <br>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>{{one_refill['medications.name']}}</td>
-                        <td>{{one_refill['first_name']}} {{one_refill['last_name']}}</td>
-                        <td>{{one_refill['days_left']}}</td>
-                        <td>{{one_refill['refills']}}</td>
-                        <td>view patient's profile | approve refill | decline refill</td>
+                        <th scope="col">Medication</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Days Left</th>
+                        <th scope="col">Refills Left</th>
+                        <th scope="col">Patient Profile</th>                    
+                        <th scope="col">Actions</th>
                     </tr>
-                {% endfor %}
-            </thead>
-            <!-- <tbody>
-                {% for one_car in all_cars: %}
-                    <tr>
-                        <td>{{one_car.model}}</td>
-                        <td>{{one_car.year}}</td>
-                        <td>{{one_car.seller_first_name}} {{one_car.seller_last_name}}</td>
-                        {% if one_car.buyer_id != None %}
-                        <td>SOLD</td>
-                        {% elif one_car.seller_id == session['user_id'] %}
-                        <td><a href="/edit/{{one_car.id}}">edit | </a><a href="/delete/{{one_car.id}}">delete</a></td>
-                        {% else %}
-                        <td><a href="/cars/{{one_car.id}}">view</a></td>
-                        {% endif %}
-                    </tr>
-                {% endfor %} -->
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <thead>
+                    {% for one_refill in refills %}
+                        <tr>
+                            <td>{{one_refill['medications.name']}}</td>
+                            <td>{{one_refill['first_name']}} {{one_refill['last_name']}}</td>
+                            <td>{{one_refill['days_left']}}</td>
+                            <td>{{one_refill['refills']}}</td>
+                            <td><a href="/view_patient_profile/{{one_refill['patients.id']}}/{{this_pharmacy[0]['id']}}">view</a></td>
+                            <td>
+                                {% if one_refill['refill_request'] == 1 %}
+                                    <form action="/accept_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                        <button type="submit">approve refill</button>
+                                    </form>
+                                    <form action="/decline_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                        <button type="submit">decline refill</button>
+                                    </form>
+                                {% else %}
+                                    refill in process
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </thead>
+            </table>
+        </div>
+    {% else %}
+        <h5 class="p-5 m-5">No refills requested by patients.</h5>
+    {% endif %}
     <!-- <div class="d-flex justify-content-end"><a href="/new" class="pr-5">....</a></div> -->
 </body>
 </html>

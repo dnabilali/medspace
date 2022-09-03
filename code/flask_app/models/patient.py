@@ -49,6 +49,11 @@ class Patient:
         query = 'DELETE FROM patients_pharmacies WHERE patient_id = %(patient_id)s and pharmacy_id = %(pharmacy_id)s'
         return connectToMySQL(db).query_db(query,data)
 
+    @classmethod
+    def next_refill(cls, data):
+        query = 'update medications set refill_request = 0 where id = %(med_id)s'
+        return connectToMySQL(db).query_db(query, data)
+
     @staticmethod
     def validate_inputs(patient):
         is_valid = True

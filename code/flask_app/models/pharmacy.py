@@ -61,7 +61,12 @@ class Pharmacy:
     @classmethod
     def refillsRequested(cls, data):
         # query = 'SELECT * FROM pharmacies JOIN medications ON medications.refill_request = 1 JOIN patients_pharmacies ON medications.patient_id = patients_pharmacies.patient_id JOIN patients ON patients_pharmacies.patient_id = patients.id WHERE pharmacies.id = %(id)s AND medications.pharmacy_id = %(id)s'
-        query = "select * from pharmacies join medications on pharmacies.id = medications.pharmacy_id join patients on medications.patient_id = patients.id where pharmacies.id = %(pharmacy_id)s and refill_request = 1"
+        query = "select * from pharmacies join medications on pharmacies.id = medications.pharmacy_id join patients on medications.patient_id = patients.id where pharmacies.id = %(pharmacy_id)s and (refill_request = 1 or refill_request = 2)"
+        return connectToMySQL(db).query_db(query, data)
+
+    @classmethod
+    def get_pharmacy_by_med(cls, data):
+        query = 'select pharmacies.name , address, pharmacies.id from pharmacies join medications on pharmacies.id = medications.pharmacy_id where medications.id = %(med_id)s'
         return connectToMySQL(db).query_db(query, data)
 
     @staticmethod
