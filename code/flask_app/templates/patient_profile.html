@@ -55,7 +55,7 @@
                             <td>
                                 <a href="/delete_meds/all_meds_view/{{patient_id}}/{{one_med['id']}}">Delete |</a>
                                 <a href="/goto_edit_meds/all_meds_view/{{patient_id}}/{{one_med['id']}}"> Edit </a>
-                                {% if one_med.refill_request != 1 and one_med.refills != 0 %}
+                                {% if one_med.refill_request != 0 and one_med.refills != 0 %}
                                     <form action="/next_refill/{{patient_id}}/{{one_med['id']}}" method="post">
                                         <button type="submit">Next Refill</button>
                                     </form>
