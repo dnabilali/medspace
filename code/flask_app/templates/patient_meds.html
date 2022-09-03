@@ -20,6 +20,7 @@
     {% if all_meds %}
         <div class="p-5 m-5">
             <h3>Medications list at {{one_pharmacy[0]['name']}} located at {{one_pharmacy[0]['address']}}:</h3>
+            <div class="d-flex justify-content-end"><a href="/new_med/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}" class="pr-5">Add a Prescription</a></div>
             <br>
             <table class="table table-striped">
                 <thead>
@@ -54,13 +55,9 @@
                                 </td>
                                 <td>
                                     <a href="/delete_meds/one_pharmacy_view/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}"> Delete</a>
-                                    {% if one_med.refill_request == 3 and one_med.refills != 0 %}
+                                    {% if one_med.refill_request != 0 and one_med.refill_request != 2 and one_med.refills != 0 %}
                                         <form action="/next_refill/{{session['patient_id']}}/{{one_med['id']}}" method="post">
-                                            <button type="submit">Done with this refill</button>
-                                        </form>
-                                    {% elif one_med.refills != 0  and one_med.refill_request == 1 %}
-                                        <form action="/next_refill/{{session['patient_id']}}/{{one_med['id']}}" method="post">
-                                            <button type="submit">Take back the refill request</button>
+                                            <button type="submit">Take back refill request</button>
                                         </form>
                                     {% endif %}
                                 </td>
@@ -74,6 +71,5 @@
             <h5>No presciptions available at {{one_pharmacy[0]['name']}} located at {{one_pharmacy[0]['address']}}.</h5>
         </div>
     {% endif %}
-    <div class="d-flex justify-content-end"><a href="/new_med/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}" class="pr-5">Add a Prescription</a></div>
 </body>
 </html>
