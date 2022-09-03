@@ -71,6 +71,11 @@ class Med:
         return connectToMySQL(db).query_db(query,data)
 
     @classmethod
+    def refill_completed(cls,data):
+        query = 'update medications set refill_request = 0 where id= %(id)s'
+        return connectToMySQL(db).query_db(query,data)
+
+    @classmethod
     def update(cls,data, med_id):
         query = f'update medications set name = "name", directions = "directions", days_left = "days_left", refills = "refills" where id = {med_id}'
         return connectToMySQL(db).query_db(query, data)

@@ -27,6 +27,7 @@
                         <th scope="col">Refills Left</th>
                         <th scope="col">Patient Profile</th>                    
                         <th scope="col">Actions</th>
+                        <th scope="col">Refill Status</th>
                     </tr>
                 </thead>
                 <thead>
@@ -48,6 +49,11 @@
                                 {% else %}
                                     refill in process
                                 {% endif %}
+                            </td>
+                            <td>
+                                <form action="/refill_completed/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                    <button type="submit">refill completed</button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}

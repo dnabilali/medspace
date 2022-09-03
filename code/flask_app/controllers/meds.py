@@ -173,3 +173,13 @@ def next_refill(patient_id, med_id):
     else:
         flash('Please sign in to access your profile!','patient_login')
         return redirect('/patients')
+
+@app.route("/refill_completed/<int:pharmacy_id>/<int:med_id>", methods=['post'])
+def refill_completed(pharmacy_id, med_id):
+    if 'pharmacy_id' in session and session['pharmacy_id'] == pharmacy_id:
+        Med.refill_completed({'id':med_id})
+        return redirect(f"/pharmacy_profile/{pharmacy_id}")
+    else:
+        flash('Please sign in to access your profile!', "pharmacy_login")
+        return redirect('/pharmacies')
+
