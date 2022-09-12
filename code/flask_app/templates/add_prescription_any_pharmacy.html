@@ -8,11 +8,15 @@
     <title>Add Patient Prescription</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
-        <h1 class="navbar-brand m-3">Welcome to Medspace, {{one_patient[0]['first_name']}}!!!</h1>
-        <div class="my-2 my-lg-0 m-3">
-            <a class="p-5" href="/patient_profile/{{session['patient_id']}}">Dashboard</a>
-            <a class="p-4" href="/logout">Log Out</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+        <div>
+            <h1 class="navbar-brand m-3"><a class="text-light" href="/patient_profile/{{one_patient[0]['id']}}">MedSpace</a></h1>
+        </div>
+        <div class="my-2 my-lg-0 m-1">
+            <div class="d-flex justify-content-around">
+                <a class="p-4 text-light" href="/patient_profile/{{one_patient[0]['id']}}/pharmacies">My Pharmacies</a>
+                <a class="p-4 text-light" href="/logout">Log Out</a>
+            </div>
         </div>
     </nav>
     <div class="d-flex flex-row">

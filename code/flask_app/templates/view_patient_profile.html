@@ -8,19 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
-        <h1 class="navbar-brand m-3">Welcome to Medspace, {{this_pharmacy[0]['name']}} {{this_pharmacy[0]['nr']}}!!!</h1>
-        <div class="my-2 my-lg-0 m-3">
-            <a class="p-4" href="/pharmacy_profile/{{this_pharmacy[0]['id']}}">Dashboard</a>
-            <a class="p-4" href="/logout">Log Out</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+        <div>
+            <h1 class="navbar-brand m-3"><a class="text-light" href="/pharmacy_profile/{{this_pharmacy[0]['id']}}">MedSpace</a></h1>
+        </div>
+        <div class="my-2 my-lg-0 m-1">
+                <a class="p-4 text-light" href="/logout">Log Out</a>
+            </div>
         </div>
     </nav>
-    <div class="card m-5 w-75">
+    <div class="card shadow m-5 w-75">
         <div class="card-body">
             <h3>{{one_patient[0].first_name}} {{one_patient[0].last_name}}</h3>
             <p>Address: {{one_patient[0].address}}</p>
             <p>Email: {{one_patient[0].email}}</p>
-            <p>Date of Birht: {{one_patient[0].bdate}}</p>
+            <p>Date of Birth: {{one_patient[0].bdate}}</p>
         </div>
     </div>
 </body>

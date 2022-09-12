@@ -1,4 +1,3 @@
-from crypt import methods
 from flask_app.models.patient import Patient
 from flask_app.models.pharmacy import Pharmacy
 from flask_app import app

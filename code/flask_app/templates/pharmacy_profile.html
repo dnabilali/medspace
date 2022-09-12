@@ -8,12 +8,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
-        <h1 class="navbar-brand m-3">Welcome to Medspace, {{this_pharmacy[0]['name']}} {{this_pharmacy[0]['nr']}}!!!</h1>
-        <div class="my-2 my-lg-0 m-3">
-            <a class="p-4" href="/logout">Log Out</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+        <div>
+            <h1 class="navbar-brand m-3"><a class="text-light" href="/pharmacy_profile/{{this_pharmacy[0]['id']}}">MedSpace</a></h1>
+        </div>
+        <div class="my-2 my-lg-0 m-1">
+                <a class="p-4 text-light" href="/logout">Log Out</a>
+            </div>
         </div>
     </nav>
+    <h1 class="navbar-brand m-3">Welcome to Medspace, {{this_pharmacy[0]['name']}} {{this_pharmacy[0]['nr']}}!!!</h1>
     {% if refills %}
         <div class="p-5 m-5">
             <h3>Refills To Be Made:</h3>
@@ -36,19 +40,19 @@
                             <td>{{one_refill['first_name']}} {{one_refill['last_name']}}</td>
                             <td>{{one_refill['days_left']}}</td>
                             <td>{{one_refill['refills']}}</td>
-                            <td><a href="/view_patient_profile/{{one_refill['patients.id']}}/{{this_pharmacy[0]['id']}}">view</a></td>
-                            <td>
+                            <td><a href="/view_patient_profile/{{one_refill['patients.id']}}/{{this_pharmacy[0]['id']}}">View</a></td>
+                            <td class="d-flex justity-content-around">
                                 {% if one_refill['refill_request'] == 1 %}
-                                    <form action="/accept_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
-                                        <button type="submit">approve refill</button>
-                                    </form>
-                                    <form action="/decline_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
-                                        <button type="submit">decline refill</button>
-                                    </form>
+                                <form action="/accept_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                    <button class="btn btn-sm btn-primary mr-1" type="submit">Approve Refill</button>
+                                </form>
+                                <form action="/decline_refill/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                    <button class="btn btn-sm btn-primary ml-1" type="submit">Decline Refill</button>
+                                </form>
                                 {% elif one_refill['refill_request'] == 2 %}
-                                    <form action="/refill_completed/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
-                                        <button type="submit">refill completed</button>
-                                    </form>
+                                <form action="/refill_completed/{{this_pharmacy[0]['id']}}/{{one_refill['medications.id']}}" method="post">
+                                    <button class="btn btn-sm btn-primary" type="submit">Refill Completed</button>
+                                </form>
                                 {% endif %}
                             </td>
                         </tr>
